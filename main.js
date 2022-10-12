@@ -1,22 +1,40 @@
+const contenidoCard = document.getElementById('contenido')
+const imagen = document.getElementById('imagen')
 
 
-
-const boton = document.getElementById('boton').addEventListener('click', e => {
+const boton = document.getElementById('boton').addEventListener('click', async() => {
     const nombre = document.getElementById('name').value
-    if (nombre === '') {
-        console.log('No se a buscado ningun pokemon')
-    }else if()
-    
-    else {
-        async function getNombre(name){
-            const API=`https://pokeapi.co/api/v2/pokemon/${name}`
-            const response =await fetch(API)
-            const datos =await response.json()
-            document.derecha.innerText(datos.abilities)
-        }
-        getNombre(`${nombre}`)
-        console.log('aja')
-    }
-})
 
+    const API = `https://pokeapi.co/api/v2/pokemon/${nombre}`
+   
+    if (nombre === '') {
+        alert('No se a buscado ningun pokemon')
+    } else {
+        const response = await fetch(API)
+        if (response.status != 200) {
+            contenidoCard.textContent = 'Nombre de pokemon mal escrito'
+        } else{
+            const datos = await response.json()
+
+            for(i=0;i<datos.abilities.length;i++){
+                habilidades=`${datos.abilities[i].ability.name}`
+            }
+
+
+            contenidoCard.innerHTML = `${datos.name}<br>
+            ${datos.stats[0].stat.name}: ${datos.stats[0].base_stat}<br>Habilidades: ${habilidades} <br>
+            Experiencia base: ${datos.base_experience}<br>
+            id: ${datos.id}<br>
+            Movimiento: ${datos.moves[0].move.name}`
+
+            imagen.innerHTML = `<img src=${datos.sprites.front_default}>`
+        }  
+    } 
+    })
+
+
+const nombre = document.getElementById('name').addEventListener('click', () => {
+    imagen.innerHTML = ''
+    contenidoCard.innerText = ''
+})
 
