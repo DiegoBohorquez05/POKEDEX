@@ -28,6 +28,7 @@ const boton = document.getElementById('boton').addEventListener('click', async()
             Movimiento: ${datos.moves[0].move.name}`
 
             imagen.innerHTML = `<img src=${datos.sprites.front_default}>`
+            console.log(datos)
         }  
     } 
     })
